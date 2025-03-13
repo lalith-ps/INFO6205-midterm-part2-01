@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  *  operations, along with methods for peeking at the minimum key,
  *  testing if the priority queue is empty, and iterating through
  *  the keys.
- *  
+ *
  *  you have to complete the swim and sink methods
  *  The insert and delMin methods should work correctly after you complete the swim and sink methods
  *  You can use the MinPQTest class to test your implementation
@@ -147,21 +147,30 @@ public class MinPQ<Key> implements Iterable<Key> {
     }
 
 
-   /***************************************************************************
-    * Helper functions to restore the heap invariant.
-    ***************************************************************************/
+    /***************************************************************************
+     * Helper functions to restore the heap invariant.
+     ***************************************************************************/
 
     private void swim(int k) {
-        //STUDENT TODO
+        while (k > 1 && greater(k / 2, k)) {
+            exch(k / 2, k);
+            k=k/2;
+        }
     }
 
     private void sink(int k) {
-        //STUDENT TODO
+        while (2 * k <= n) {
+            int j=2*k;
+            if (j < n && greater(j, j + 1)) j++;
+            if (!greater(k, j)) break;
+            exch(k, j);
+            k=j;
+        }
     }
 
-   /***************************************************************************
-    * Helper functions for compares and swaps.
-    ***************************************************************************/
+    /***************************************************************************
+     * Helper functions for compares and swaps.
+     ***************************************************************************/
     private boolean greater(int i, int j) {
         if (comparator == null) {
             return ((Comparable<Key>) pq[i]).compareTo(pq[j]) > 0;
